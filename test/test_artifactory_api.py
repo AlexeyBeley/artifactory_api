@@ -14,4 +14,8 @@ class TestArtifactoryAPI(unittest.TestCase):
 
     def test_system_ping(self):
         aapi = ArtifactoryAPI(configs_file_path=os.path.abspath(os.path.join("files", "config.json")))
-        aapi.system_ping()
+        self.assertTrue(aapi.system_ping())
+
+    def test_system_version(self):
+        aapi = ArtifactoryAPI(configs_file_path=os.path.abspath(os.path.join("files", "config.json")))
+        self.assertEqual(aapi.system_version(), "1.1.1")

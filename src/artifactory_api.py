@@ -5,17 +5,21 @@ import requests
 from urllib.parse import urljoin
 import time
 
+
 #region Static functions and Consts
+
+
 SESSION_RETRY_COUNT = 3
 SESSION_RETRY_SLEEP_INTERVAL = 5
+EXPOSED_API = {}
 
 def connection_required(func_base):
     def new_func(args, **kwargs):
         try:
-            func_base(args, **kwargs)
-        except AttributeError:
+            return func_base(args, **kwargs)
+        except ConnectionError:
             ArtifactoryAPI.connect()
-            func_base(args, **kwargs)
+            return func_base(args, **kwargs)
 
     return new_func
 
@@ -32,10 +36,33 @@ def retry(log_message, tuple_exceptions):
         return func_new
     return wrap
 
+
+def expose_api(api_path):
+    def wrap(func_base):
+        if api_path in EXPOSED_API:
+            raise APIImplementationOverrideError("API path exists: {}".format(api_path))
+
+        EXPOSED_API[api_path] = func_base.__name__
+
+        def func_new(args, **kwargs):
+            return func_base(args, **kwargs)
+
+        return func_new
+    return wrap
+
+
 #endregion
 
 
 class APICallError(RuntimeError):
+    pass
+
+
+class NotConnectedError(RuntimeError):
+    pass
+
+
+class APIImplementationOverrideError(RuntimeError):
     pass
 
 
@@ -60,6 +87,12 @@ class ArtifactoryAPI(object):
     def __init__(self, configs_file_path=os.path.join(os.path.abspath(__file__), "config.json")):
         ArtifactoryAPI.configuration = APIConfiguration(configs_file_path)
 
+    @expose_api("system.version")
+    @connection_required
+    def system_version(self):
+        return "1.1.1"
+
+    @expose_api("system.ping")
     @connection_required
     def system_ping(self):
         """
@@ -71,9 +104,11 @@ class ArtifactoryAPI(object):
         try:
             ArtifactoryAPI.execute("system/ping")
             return True
+        except ConnectionError:
+            raise
         except Exception as e:
-            print(repr(e))
-            return False
+            print("Error received executing system_ping: {}".format(repr(e)))
+        return False
 
     @staticmethod
     def connect():
@@ -82,17 +117,25 @@ class ArtifactoryAPI(object):
 
     @staticmethod
     @retry("Api called failed.", (APICallError, requests.HTTPError, requests.ConnectionError))
-    def execute(command):
+    def execute(command, retry_on_error_code=True):
         url = urljoin(ArtifactoryAPI.configuration.url, command)
         for count in range(ArtifactoryAPI.configuration.retry_count):
             try:
                 ret = ArtifactoryAPI.session.get(url)
                 if ret.status_code != 200:
-                    raise APICallError("Error code: {}, reason: {}".format(ret.status_code, ret.reason))
+                    if retry_on_error_code:
+                        raise APICallError("Error code: {}, reason: {}".format(ret.status_code, ret.reason))
+                    else:
+                        print("Error when calling {} code: {}, reason: {}".format(url, ret.status_code, ret.reason))
+
                 return ret
+            except AttributeError as e:
+                if "'NoneType' object has no attribute 'get'" in repr(e):
+                    raise ConnectionError("Not connected")
+                raise
             except (requests.HTTPError, requests.ConnectionError):
                 time.sleep(ArtifactoryAPI.configuration.retry_sleep_interval)
-        pdb.set_trace()
+
 
 
 
