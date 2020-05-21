@@ -7,5 +7,17 @@ portal password: DGNHR$3@^7(*3)lmy!@2
 api user: admin
 api password: IAMwckGYQlRdz1g8Z0rRLA
 
-#test:
-curl -u "admin":"IAMwckGYQlRdz1g8Z0rRLA" "https://alexeybeley.jfrog.io/artifactory/api/system/ping"
+
+#Usefull manual tests
+Basic connectivity:
+replace <> placeholders with real values:
+```commandline
+curl -u "<username>":"<password>" "https://alexeybeley.jfrog.io/artifactory/api/system/ping"
+```
+
+
+#`@connection_required` decorator
+This allows to add any logic about the user connection status:
+1) Access management
+2) Logging 
+etc.

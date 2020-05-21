@@ -1,3 +1,6 @@
 {
-  "server_name": ""
+  "server_name": "alexeybeley.jfrog.io/artifactory",
+  "protocol": "https",
+  "username": "admin",
+  "password": "IAMwckGYQlRdz1g8Z0rRLA"
 }
