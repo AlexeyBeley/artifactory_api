@@ -22,7 +22,8 @@ class TestArtifactoryAPI(unittest.TestCase):
 
     def test_exposed_api(self):
         ArtifactoryAPI(configs_file_path=os.path.abspath(os.path.join("files", "config.json")))
-        self.assertEqual(EXPOSED_API, {'system.version': 'system_version',
+        self.assertEqual(EXPOSED_API, {'configure': 'configure',
+                                       'system.version': 'system_version',
                                        'system.ping': 'system_ping'
                                        }
                          )

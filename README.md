@@ -15,14 +15,19 @@ replace <> placeholders with real values:
 curl -u "<username>":"<password>" "https://alexeybeley.jfrog.io/artifactory/api/system/ping"
 ```
 
+# For developer:
+* `@connection_required`
 
-#`@connection_required` decorator
-This allows to add any logic about the user connection status:
-1) Access management
-2) Logging 
-etc.
+   This decoratorallows to add any logic about the user connection status:
+   1) Access management
+   2) Logging 
+   3) etc.
 
-#`@expose_api` decorator
-Allows a developer by just adding this decorator above his function to make it automatically exposed in CLI.
-All menus being added too.
+* `@expose_api`
 
+   This decorator allows a developer by just adding this decorator above his function to:
+   1) Mmake it automatically exposed in CLI.
+   2) Add all submenus path.
+
+#Miscellanies
+1) Dot (.) is a restricted char in api_menu name. Can be switched to anything else. e.g ->

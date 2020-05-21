@@ -93,6 +93,10 @@ class ArtifactoryAPI(object):
     def __init__(self, configs_file_path=os.path.join(os.path.abspath(__file__), "config.json")):
         ArtifactoryAPI.configuration = APIConfiguration(configs_file_path)
 
+    @expose_api("configure")
+    def configure(self):
+        pdb.set_trace()
+
     @expose_api("system.version")
     @connection_required
     def system_version(self):
