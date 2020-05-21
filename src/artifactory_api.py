@@ -5,6 +5,7 @@ import requests
 from urllib.parse import urljoin
 import time
 from functools import wraps
+import argparse
 
 
 # region Consts
@@ -90,12 +91,26 @@ class ArtifactoryAPI(object):
     configuration = None
     session = None
 
-    def __init__(self, configs_file_path=os.path.join(os.path.abspath(__file__), "config.json")):
-        ArtifactoryAPI.configuration = APIConfiguration(configs_file_path)
+    def __init__(self):
+        pass
+
+    def configure_cli_parser(self):
+        parser = argparse.ArgumentParser()
+        return parser
 
     @expose_api("configure")
-    def configure(self):
-        pdb.set_trace()
+    def configure(self, cli_parser=False, configs_file_path=os.path.join(os.path.abspath(__file__), "config.json")):
+        """
+
+        :param cli_parser:
+        :param configs_file_path:
+        :return:
+        """
+
+        if cli_parser:
+            return self.configure_cli_parser()
+
+        ArtifactoryAPI.configuration = APIConfiguration(configs_file_path)
 
     @expose_api("system.version")
     @connection_required

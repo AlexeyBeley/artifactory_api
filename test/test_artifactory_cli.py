@@ -9,9 +9,22 @@ from artifactory_cli import ArtifactoryCLI, main
 
 class TestArtifactoryCLI(unittest.TestCase):
     def test_main(self):
-        testargs = ["prog", "configure", "-f", os.path.abspath(os.path.join("files", "config.json"))]
+        testargs = ["art_cli", "configure", "-f", os.path.abspath(os.path.join("files", "config.json"))]
         with patch.object(sys, 'argv', testargs):
            main()
         #aapi = ArtifactoryCLI(configs_file_path=os.path.abspath(os.path.join("files", "config.json")))
         #self.assertEqual(aapi.configuration.url, "https://alexeybeley.jfrog.io/artifactory/api/")
 
+    def test_system_wrong(self):
+        testargs = ["art_cli", "system", "-f", os.path.abspath(os.path.join("files", "config.json"))]
+        with patch.object(sys, 'argv', testargs):
+           main()
+        #aapi = ArtifactoryCLI(configs_file_path=os.path.abspath(os.path.join("files", "config.json")))
+        #self.assertEqual(aapi.configuration.url, "https://alexeybeley.jfrog.io/artifactory/api/")
+
+    def test_system_ping(self):
+        testargs = ["art_cli", "system", "ping"]
+        with patch.object(sys, 'argv', testargs):
+           main()
+        #aapi = ArtifactoryCLI(configs_file_path=os.path.abspath(os.path.join("files", "config.json")))
+        #self.assertEqual(aapi.configuration.url, "https://alexeybeley.jfrog.io/artifactory/api/")
