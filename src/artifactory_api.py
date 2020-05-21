@@ -7,12 +7,13 @@ import time
 from functools import wraps
 
 
-#region Static functions and Consts
-
-
+# region Consts
 SESSION_RETRY_COUNT = 3
 SESSION_RETRY_SLEEP_INTERVAL = 5
 EXPOSED_API = {}
+# endregion
+
+# region Decorators
 
 
 def connection_required(func_base):
@@ -53,9 +54,9 @@ def expose_api(api_path):
 
         return func_new
     return wrap
+# endregion
 
-
-#endregion
+# region Exceptions
 
 
 class APICallError(RuntimeError):
@@ -69,6 +70,7 @@ class NotConnectedError(RuntimeError):
 class APIImplementationOverrideError(RuntimeError):
     pass
 
+# endregion
 
 class APIConfiguration(object):
     def __init__(self, configs_file_path):
