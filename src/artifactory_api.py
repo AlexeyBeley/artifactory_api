@@ -116,6 +116,21 @@ class ArtifactoryAPI(object):
             print("Error received executing system_ping: {}".format(repr(e)))
         return False
 
+    def user_delete(self):
+        raise NotImplementedError("the same as below")
+
+    def user_create(self):
+        print("Press ^+D to submit the valid JSON input")
+        complete_inout = sys.stdin.read()
+        pdb.set_trace()
+        print(complete_inout)
+        {"1": "2",
+         "3": "4"
+         }
+
+    def storage_get_info(self):
+        raise NotImplementedError("GET /api/storageinfo")
+
     @staticmethod
     def connect():
         ArtifactoryAPI.session = requests.Session()

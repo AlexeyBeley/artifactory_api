@@ -1,3 +1,4 @@
+#!python3
 import argparse
 import pdb
 import sys
@@ -16,6 +17,9 @@ class ArtifactoryCLI(object):
 
 def main():
    print(sys.argv)
+   art_cli = ArtifactoryCLI()
+   art_cli.build_menu(EXPOSED_API)
+   art_cli
 
 
 if __name__ == "__main__":
