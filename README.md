@@ -21,3 +21,8 @@ This allows to add any logic about the user connection status:
 1) Access management
 2) Logging 
 etc.
+
+#`@expose_api` decorator
+Allows a developer by just adding this decorator above his function to make it automatically exposed in CLI.
+All menus being added too.
+

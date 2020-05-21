@@ -4,6 +4,7 @@ import pdb
 import requests
 from urllib.parse import urljoin
 import time
+from functools import wraps
 
 
 #region Static functions and Consts
@@ -13,7 +14,9 @@ SESSION_RETRY_COUNT = 3
 SESSION_RETRY_SLEEP_INTERVAL = 5
 EXPOSED_API = {}
 
+
 def connection_required(func_base):
+    @wraps(func_base)
     def new_func(args, **kwargs):
         try:
             return func_base(args, **kwargs)
@@ -44,6 +47,7 @@ def expose_api(api_path):
 
         EXPOSED_API[api_path] = func_base.__name__
 
+        @wraps(func_base)
         def func_new(args, **kwargs):
             return func_base(args, **kwargs)
 
