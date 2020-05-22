@@ -31,6 +31,17 @@ class CLIMenu(object):
 
         return self.children.get(name)
 
+    def split_full_call_path(self, lst_path):
+        if self.name != lst_path[0]:
+            raise RuntimeError("Invalid submenu call '{}, expected '{}'".format(lst_path[0], self.name))
+
+        if len(lst_path) == 1 or lst_path[1] not in self.children:
+            return [self.name], self.func_name, lst_path[1:]
+
+        children_submenus, func_name, args_split = self.children[lst_path[1]].split_full_call_path(lst_path[1:])
+        children_submenus.insert(0, self.name)
+        return children_submenus, func_name, args_split
+
 
 class ArtifactoryCLI(object):
     ART_API = ArtifactoryAPI()
@@ -44,7 +55,7 @@ class ArtifactoryCLI(object):
             self.menu.add_submenus(key, value)
 
     def process_call(self):
-        submenus, function_name, function_args = self.split_to_submenus_function_and_args()
+        submenus, function_name, function_args = self.menu.split_full_call_path(sys.argv)
         if not function_name:
             self.menu.generate_usage(submenus, function_name, function_args)
             return

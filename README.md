@@ -29,5 +29,10 @@ curl -u "<username>":"<password>" "https://alexeybeley.jfrog.io/artifactory/api/
    1) Mmake it automatically exposed in CLI.
    2) Add all submenus path.
 
+* `CLIMenu.split_full_call_path`
+   Recursively find the function to be called.
+   1) Bonus: You can make a sub_menu function: e.g `packages list by_project` can be a function
+      but `packages list` can be a function too.  
+
 #Miscellanies
 1) Dot (.) is a restricted char in api_menu name. Can be switched to anything else. e.g ->
