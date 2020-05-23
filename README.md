@@ -2,7 +2,10 @@
 
 1) Install
    `pip3 install art_cli -i https://alexeybeley.jfrog.io/artifactory/api/pypi/pypi-local/simple`
+   `pip3 install requests==2.23.0`
 2) Create a runner for example:
+   chmod +x on it (e.g. `touch ./art_cli.py && chmod +x ./art_cli.py')
+   
    cat ./art_cli.py
    ```python
 
@@ -34,3 +37,4 @@ run this command to test your package before uploading.
 2) Add option to interactive user intput (e.g. user-create should accept json from stdin).
 3) Function to upload the package. So the `make upload` will use it.
 4) Add __version__ under packages __init__.py
+5) Remove pip3 install requests

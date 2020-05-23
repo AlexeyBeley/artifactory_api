@@ -5,7 +5,7 @@ with open("./README.md") as fh:
 
 setuptools.setup(
     name="art_cli",
-    version="1.0.0",
+    version="1.0.1",
     author="Horey",
     author_email="alexey.beley@gmail.com",
     description="Artifactory API CLI package",
