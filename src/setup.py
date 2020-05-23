@@ -1,6 +1,6 @@
 import setuptools
 
-with open("README.md") as fh:
+with open("./README.md") as fh:
     long_description = fh.read()
 
 setuptools.setup(
@@ -10,6 +10,7 @@ setuptools.setup(
     author_email="alexey.beley@gmail.com",
     description="Artifactory API CLI package",
     long_description=long_description,
+    install_requires="requests==2.23.0",
     long_description_content_type="text/markdown",
     url="https://alexeybeley.jfrog.io/pypi-local",
     packages=setuptools.find_packages(include=["art_cli"]),

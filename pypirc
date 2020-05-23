@@ -1,7 +1,0 @@
-[distutils]
-index-servers= local
-
-[local]
-    username: admin
-    password: IAMwckGYQlRdz1g8Z0rRLA1
-    repository: https://alexeybeley.jfrog.io/pypi-local
