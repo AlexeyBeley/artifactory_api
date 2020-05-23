@@ -1,12 +1,12 @@
 # For users
 
 1) Install
-   `pip3 install art_cli -i https://alexeybeley.jfrog.io/artifactory/api/pypi/pypi-local/simple`
+   `pip3 install h_art_cli -i https://alexeybeley.jfrog.io/artifactory/api/pypi/pypi-local/simple`
    `pip3 install requests==2.23.0`
 2) Create a runner for example:
-   chmod +x on it (e.g. `touch ./art_cli.py && chmod +x ./art_cli.py')
+   chmod +x on it (e.g. `touch ./art_cli_runner.py && chmod +x ./art_cli_runner.py')
    
-   cat ./art_cli.py
+   cat ./art_cli_runner.py
    ```python
 
    #!/python3
@@ -15,8 +15,9 @@
    ```
 3) First thing - you have to configure it.
    See the example .json file for configuration 
-   run `./art_cli.py configure -f <file_path>`
-4) As an option you can put it as `+x` under `/usr/bin` and run it from console directly
+   run `./art_cli_runner.py configure -f <file_path>`
+4) run `./art_cli_runner.py system ping`  
+5) As an option you can put it as `+x` under `/usr/bin` and run it from console directly
 
 # For developers how to use Makefile:
 

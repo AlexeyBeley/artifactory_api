@@ -101,6 +101,7 @@ class ArtifactoryCLI(object):
 
 
 def main():
+    sys.argv[0] = "ART_OF_CLI"
     art_cli = ArtifactoryCLI()
     art_cli.build_menu()
     art_cli.process_call()

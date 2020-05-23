@@ -3,7 +3,7 @@ build_folder:
 
 .PHONY: build
 build: src_copy
-	cd ./_build/src && python ./setup.py sdist bdist_wheel
+	cd ./_build/src && python3 ./setup.py sdist bdist_wheel
 
 .PHONY: src_copy
 src_copy:

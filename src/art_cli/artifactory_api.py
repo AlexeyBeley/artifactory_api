@@ -89,7 +89,7 @@ class APIConfiguration(object):
 class ArtifactoryAPI(object):
     configuration = None
     session = None
-    CONFIGS_PATH = os.path.join(os.path.dirname(__file__), "_private", "configs.json")
+    CONFIGS_PATH = os.path.join("/tmp", "configs.json")
 
     def __init__(self):
         self.default_parser = argparse.ArgumentParser()
@@ -142,9 +142,12 @@ class ArtifactoryAPI(object):
         with open(file_name) as f:
             configs = json.load(f)
 
-        if file_name != ArtifactoryAPI.CONFIGS_PATH:
-            with open(ArtifactoryAPI.CONFIGS_PATH, "w") as f:
-                f.write(json.dumps(configs))
+        try:
+            if file_name != ArtifactoryAPI.CONFIGS_PATH:
+              with open(ArtifactoryAPI.CONFIGS_PATH, "w") as f:
+                    f.write(json.dumps(configs))
+        except FileNotFoundError:
+            print("Valid Configuration file needed")
 
         ArtifactoryAPI.configuration = APIConfiguration(configs)
 
