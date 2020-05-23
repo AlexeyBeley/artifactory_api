@@ -54,13 +54,12 @@ class CLIMenu(object):
             if args.USAGE is True:
                 self.print_all_menus_usage([])
             else:
+                pdb.set_trace()
                 print(help_message)
 
             return
 
-        pdb.set_trace()
-        usage = ""
-        print(usage)
+        self.children[submenus[-1]].print_all_menus_usage(submenus[:-1])
 
     def print_all_menus_usage(self, lst_path):
         str_ret = ""
