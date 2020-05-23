@@ -18,6 +18,11 @@ class TestArtifactoryAPI(unittest.TestCase):
         art_api.configure(file_name=os.path.abspath(os.path.join("files", "config.json")))
         self.assertTrue(art_api.system_ping())
 
+    def test_user_create(self):
+        art_api = ArtifactoryAPI()
+        art_api.configure(file_name=os.path.abspath(os.path.join("files", "config.json")))
+        self.assertTrue(art_api.user_create(file_name=os.path.abspath(os.path.join("files", "user.json"))))
+
     def test_system_version(self):
         art_api = ArtifactoryAPI()
         art_api.configure(file_name=os.path.abspath(os.path.join("files", "config.json")))

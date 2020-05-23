@@ -1,21 +1,5 @@
 # artifactory_api
 
-alexeybeley.jfrog.io/artifactory
-
-portal username: alexeybeley
-portal password: DGNHR$3@^7(*3)lmy!@2
-
-api user: admin
-api password: IAMwckGYQlRdz1g8Z0rRLA1
-
-
-#Usefull manual tests
-Basic connectivity:
-replace <> placeholders with real values:
-```commandline
-curl -u "<username>":"<password>" "https://alexeybeley.jfrog.io/artifactory/api/system/ping"
-```
-
 # For developer:
 * `@connection_required`
 
@@ -37,3 +21,12 @@ curl -u "<username>":"<password>" "https://alexeybeley.jfrog.io/artifactory/api/
 
 #Miscellanies
 1) Dot (.) is a restricted char in api_menu name. Can be switched to anything else. e.g ->
+
+
+#Usefull manual tests
+Basic connectivity:
+replace <> placeholders with real values:
+```commandline
+curl -u "<username>":"<password>" "https://alexeybeley.jfrog.io/artifactory/api/system/ping"
+```
+

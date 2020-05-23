@@ -6,6 +6,7 @@ from urllib.parse import urljoin
 import time
 from functools import wraps
 import argparse
+from enum import Enum
 
 # region Consts
 SESSION_RETRY_COUNT = 3
@@ -187,9 +188,15 @@ class ArtifactoryAPI(object):
 
     @expose_api("user.create")
     @connection_required
-    def user_create(self, cli_parser=False):
+    def user_create(self, cli_parser=False, file_name=None):
         if cli_parser:
             return self.file_name_parser()
+
+        ArtifactoryAPI.execute("system/ping")
+
+        requests.put('https://httpbin.org/put', data={'key': 'value'})
+        #
+        return True
         pdb.set_trace()
         print("Press ^+D to submit the valid JSON input")
         complete_inout = sys.stdin.read()
@@ -222,11 +229,19 @@ class ArtifactoryAPI(object):
 
     @staticmethod
     @retry("Api called failed.", (APICallError, requests.HTTPError, requests.ConnectionError))
-    def execute(command, retry_on_error_code=True):
+    def execute(command, method, retry_on_error_code=True, data=None):
         url = urljoin(ArtifactoryAPI.configuration.url, command)
         for count in range(ArtifactoryAPI.configuration.retry_count):
             try:
-                ret = ArtifactoryAPI.session.get(url)
+                if method == ArtifactoryAPI.APIMethods.GET:
+                    ret = ArtifactoryAPI.session.get(url)
+                elif method == ArtifactoryAPI.APIMethods.PUT:
+                    ret = ArtifactoryAPI.session.put(url, data=data)
+                elif method == ArtifactoryAPI.APIMethods.DELETE:
+                    ret = ArtifactoryAPI.session.delete(url)
+                else:
+                    raise RuntimeError("Unexpected method {}, method should be one of {}".format(method, ArtifactoryAPI.APIMethods._member_names_))
+
                 if ret.status_code != 200:
                     if retry_on_error_code:
                         raise APICallError("Error code: {}, reason: {}".format(ret.status_code, ret.reason))
@@ -241,7 +256,7 @@ class ArtifactoryAPI(object):
             except (requests.HTTPError, requests.ConnectionError):
                 time.sleep(ArtifactoryAPI.configuration.retry_sleep_interval)
 
-
-
-
-
+    class APIMethods(Enum):
+        GET = 0
+        PUT = 1
+        DELETE = 2
