@@ -1,7 +1,8 @@
 #!python3
 import sys
 from artifactory_api import ArtifactoryAPI, EXPOSED_API
-
+import pdb
+import argparse
 
 class CLIMenu(object):
 
@@ -40,6 +41,18 @@ class CLIMenu(object):
         children_submenus.insert(0, self.name)
         return children_submenus, func_name, args_split
 
+    def generate_usage(self, submenus, function_name, function_args):
+        if len(submenus) == 1:
+            parser = argparse.ArgumentParser()
+            parser.add_argument('-n',
+                                '--name',
+                                action='store',
+                                type=str,
+                                metavar='NAME')
+        pdb.set_trace()
+        usage = ""
+        print(usage)
+
 
 class ArtifactoryCLI(object):
     ART_API = ArtifactoryAPI()
@@ -68,6 +81,7 @@ def main():
     art_cli = ArtifactoryCLI()
     art_cli.build_menu()
     art_cli.process_call()
+    return True
 
 
 if __name__ == "__main__":
