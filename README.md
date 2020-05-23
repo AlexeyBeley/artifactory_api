@@ -13,3 +13,4 @@ run this command to test your package before uploading.
 # todo:
 1) Make it interactive (while loop)
 2) Add option to interactive user intput (e.g. user-create should accept json from stdin).
+3) Function to upload the package. So the `make upload` will use it.

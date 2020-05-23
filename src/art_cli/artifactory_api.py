@@ -7,6 +7,7 @@ import time
 from functools import wraps
 import argparse
 from enum import Enum
+import pprint
 
 # region Consts
 SESSION_RETRY_COUNT = 3
@@ -154,7 +155,10 @@ class ArtifactoryAPI(object):
         if cli_parser:
             return self.default_parser
         ret = ArtifactoryAPI.execute("system/version", ArtifactoryAPI.APIMethods.GET)
-        return json.loads(str(ret._content,encoding="utf8"))["version"]
+
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(json.loads(ret.text))
+        return "ok"
 
     @expose_api("system.ping")
     @connection_required
@@ -220,7 +224,11 @@ class ArtifactoryAPI(object):
         if cli_parser:
             return self.default_parser
 
-        raise NotImplementedError("GET /api/storageinfo")
+        ret = ArtifactoryAPI.execute("storageinfo", ArtifactoryAPI.APIMethods.GET)
+
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint(json.loads(ret.text))
+        return "ok"
 
     @expose_api("package.upload")
     @connection_required
@@ -228,7 +236,7 @@ class ArtifactoryAPI(object):
         if cli_parser:
             return self.dir_name_parser()
 
-        raise NotImplementedError("upload package")
+        raise NotImplementedError("Upload package should be part of the CLI")
 
     @staticmethod
     def connect():

@@ -29,11 +29,15 @@ class TestArtifactoryAPI(unittest.TestCase):
         art_api.configure(file_name=os.path.abspath(os.path.join("files", "config.json")))
         self.assertTrue(art_api.user_delete(name="davids"))
 
-    @unittest.skip("todo: it can fail test/upload")
     def test_system_version(self):
         art_api = ArtifactoryAPI()
         art_api.configure(file_name=os.path.abspath(os.path.join("files", "config.json")))
-        self.assertEqual(art_api.system_version(), "7.5.1")
+        self.assertEqual(art_api.system_version(), "ok")
+
+    def test_storage_get_info(self):
+        art_api = ArtifactoryAPI()
+        art_api.configure(file_name=os.path.abspath(os.path.join("files", "config.json")))
+        self.assertEqual(art_api.storage_get_info(), "ok")
 
     def test_exposed_api(self):
         ArtifactoryAPI()
