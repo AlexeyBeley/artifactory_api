@@ -20,7 +20,7 @@ def connection_required(func_base):
     @wraps(func_base)
     def new_func(args, **kwargs):
         try:
-            ArtifactoryAPI().configure(file_name=ArtifactoryAPI.CONFIGS_PATH)
+            ArtifactoryAPI().configure()
             return func_base(args, **kwargs)
         except ConnectionError:
             ArtifactoryAPI.connect()
@@ -134,6 +134,10 @@ class ArtifactoryAPI(object):
 
         if cli_parser:
             return ArtifactoryAPI.file_name_parser()
+
+        if file_name is None:
+            file_name = ArtifactoryAPI.CONFIGS_PATH
+
         with open(file_name) as f:
             configs = json.load(f)
 
