@@ -3,7 +3,7 @@ import sys
 import unittest
 import argparse
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "art_cli", "src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src", "art_cli")))
 from artifactory_api import ArtifactoryAPI, EXPOSED_API
 
 
@@ -40,3 +40,6 @@ class TestArtifactoryAPI(unittest.TestCase):
         for func_name in EXPOSED_API.values():
             self.assertIsInstance(getattr(art_api, func_name)(cli_parser=True), argparse.ArgumentParser)
 
+
+if __name__ == '__main__':
+    unittest.main()

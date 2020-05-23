@@ -7,7 +7,6 @@ import time
 from functools import wraps
 import argparse
 
-
 # region Consts
 SESSION_RETRY_COUNT = 3
 SESSION_RETRY_SLEEP_INTERVAL = 5
@@ -21,6 +20,7 @@ def connection_required(func_base):
     @wraps(func_base)
     def new_func(args, **kwargs):
         try:
+            ArtifactoryAPI().configure(file_name=ArtifactoryAPI.CONFIGS_PATH)
             return func_base(args, **kwargs)
         except ConnectionError:
             ArtifactoryAPI.connect()
@@ -74,9 +74,7 @@ class APIImplementationOverrideError(RuntimeError):
 # endregion
 
 class APIConfiguration(object):
-    def __init__(self, configs_file_path):
-        with open(configs_file_path) as f:
-            configs = json.load(f)
+    def __init__(self, configs):
         self.username = configs.get("username")
         self.password = configs.get("password")
         self.url = "{}://{}/api/".format(configs["protocol"], configs["server_name"])
@@ -90,6 +88,7 @@ class APIConfiguration(object):
 class ArtifactoryAPI(object):
     configuration = None
     session = None
+    CONFIGS_PATH = os.path.join(os.path.dirname(__file__), "_private", "configs.json")
 
     def __init__(self):
         self.default_parser = argparse.ArgumentParser()
@@ -134,9 +133,15 @@ class ArtifactoryAPI(object):
         """
 
         if cli_parser:
-            return self.file_name_parser()
+            return ArtifactoryAPI.file_name_parser()
+        with open(file_name) as f:
+            configs = json.load(f)
 
-        ArtifactoryAPI.configuration = APIConfiguration(file_name)
+        if file_name != ArtifactoryAPI.CONFIGS_PATH:
+            with open(ArtifactoryAPI.CONFIGS_PATH, "w") as f:
+                f.write(json.dumps(configs))
+
+        ArtifactoryAPI.configuration = APIConfiguration(configs)
 
     @expose_api("system.version")
     @connection_required

@@ -3,7 +3,7 @@ import sys
 import unittest
 from unittest.mock import patch
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "art_cli", "src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src", "art_cli")))
 from artifactory_cli import main, CLIMenu
 
 
@@ -51,3 +51,7 @@ class TestArtifactoryCLI(unittest.TestCase):
            main()
         #aapi = ArtifactoryCLI(configs_file_path=os.path.abspath(os.path.join("files", "config.json")))
         #self.assertEqual(aapi.configuration.url, "https://alexeybeley.jfrog.io/artifactory/api/")
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,6 +1,6 @@
 #!python3
 import sys
-from art_cli.artifactory_api import ArtifactoryAPI, EXPOSED_API
+from artifactory_api import ArtifactoryAPI, EXPOSED_API
 
 
 class CLIMenu(object):
@@ -66,11 +66,6 @@ class ArtifactoryCLI(object):
 
 def main():
     art_cli = ArtifactoryCLI()
-
-    # todo: remove
-    art_cli.ART_API.configure(file_name="/test/files/config.json")
-    sys.argv[0] = "ART_OF_CLI"
-    #./artifactory_cli.py system ping
     art_cli.build_menu()
     art_cli.process_call()
 

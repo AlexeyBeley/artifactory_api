@@ -5,8 +5,13 @@ build: build_folder
 	cp -r ./src ./_build/src
 	cd ./_build/src && python ./setup.py sdist bdist_wheel
 
+venv:
+	python3 -m venv ./_build/venv && . ./_build/venv/bin/activate
+
+test: build_folder build venv
+
 clear: build_folder
-	rm -rf ./build/*
+	rm -rf ./_build/*
 
 
 #upload (build, test):
