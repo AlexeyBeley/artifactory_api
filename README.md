@@ -1,18 +1,18 @@
 # For users
 
 1) Install
-`pip3 install -e https://alexeybeley.jfrog.io/artifactory/api/pypi/pypi-local/art_cli` 
+   `pip3 install -e https://alexeybeley.jfrog.io/artifactory/api/pypi/pypi-local/art_cli` 
 2) Create a runner for example:
-cat ./art_cli.py
+   cat ./art_cli.py
+   ```python
 
-#!/python3
-from art_cli.artifactory_cli import main
-main()
-3)
-First thing - you have to configure it.
-see example .json file for configuration 
-
-run `./art_cli.py configure -f <file_path>`
+   #!/python3
+   from art_cli.artifactory_cli import main
+   main()
+   ```
+3) First thing - you have to configure it.
+   See the example .json file for configuration 
+   run `./art_cli.py configure -f <file_path>`
 
 
 # For developers how to use Makefile:
