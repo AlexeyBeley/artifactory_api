@@ -61,8 +61,9 @@ class ArtifactoryCLI(object):
             return
         func_obj = getattr(self.ART_API, function_name)
         parser = func_obj(cli_parser=True)
+
         args = parser.parse_args(sys.argv[len(submenus):])
-        return func_obj(args)
+        return func_obj(**vars(args))
 
 
 def main():

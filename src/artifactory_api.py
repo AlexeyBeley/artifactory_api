@@ -92,40 +92,72 @@ class ArtifactoryAPI(object):
     session = None
 
     def __init__(self):
-        pass
+        self.default_parser = argparse.ArgumentParser()
 
-    def configure_cli_parser(self):
+    @staticmethod
+    def file_name_parser():
         parser = argparse.ArgumentParser()
+        parser.add_argument('-f',
+                            '--file_name',
+                            action='store',
+                            type=str,
+                            metavar='FILE_NAME')
+        return parser
+
+    @staticmethod
+    def dir_name_parser():
+        parser = argparse.ArgumentParser()
+        parser.add_argument('-d',
+                            '--dir_name',
+                            action='store',
+                            type=str,
+                            metavar='DIR_NAME')
+        return parser
+
+    @staticmethod
+    def name_parser():
+        parser = argparse.ArgumentParser()
+        parser.add_argument('-n',
+                            '--name',
+                            action='store',
+                            type=str,
+                            metavar='NAME')
         return parser
 
     @expose_api("configure")
-    def configure(self, cli_parser=False, configs_file_path=os.path.join(os.path.abspath(__file__), "config.json")):
+    def configure(self, cli_parser=False, file_name=None):
         """
 
         :param cli_parser:
-        :param configs_file_path:
+        :param file_name:
         :return:
         """
 
         if cli_parser:
-            return self.configure_cli_parser()
+            return self.file_name_parser()
 
-        ArtifactoryAPI.configuration = APIConfiguration(configs_file_path)
+        ArtifactoryAPI.configuration = APIConfiguration(file_name)
 
     @expose_api("system.version")
     @connection_required
-    def system_version(self):
+    def system_version(self, cli_parser=False):
+        if cli_parser:
+            return self.default_parser
+
         return "1.1.1"
 
     @expose_api("system.ping")
     @connection_required
-    def system_ping(self):
+    def system_ping(self, cli_parser=False):
         """
         Perform API call to the Artifactory server.
         '/system/ping'
 
         :return: True if ping succeeded False else
         """
+        if cli_parser:
+            return self.default_parser
+
         try:
             ArtifactoryAPI.execute("system/ping")
             return True
@@ -135,10 +167,20 @@ class ArtifactoryAPI(object):
             print("Error received executing system_ping: {}".format(repr(e)))
         return False
 
-    def user_delete(self):
+    @expose_api("user.delete")
+    @connection_required
+    def user_delete(self, cli_parser=False):
+        if cli_parser:
+            return self.name_parser()
+
         raise NotImplementedError("the same as below")
 
-    def user_create(self):
+    @expose_api("user.create")
+    @connection_required
+    def user_create(self, cli_parser=False):
+        if cli_parser:
+            return self.file_name_parser()
+        pdb.set_trace()
         print("Press ^+D to submit the valid JSON input")
         complete_inout = sys.stdin.read()
         pdb.set_trace()
@@ -147,8 +189,21 @@ class ArtifactoryAPI(object):
          "3": "4"
          }
 
-    def storage_get_info(self):
+    @expose_api("storage.info")
+    @connection_required
+    def storage_get_info(self, cli_parser=False):
+        if cli_parser:
+            return self.default_parser
+
         raise NotImplementedError("GET /api/storageinfo")
+
+    @expose_api("package.upload")
+    @connection_required
+    def package_upload(self, cli_parser=False):
+        if cli_parser:
+            return self.dir_name_parser()
+
+        raise NotImplementedError("upload package")
 
     @staticmethod
     def connect():

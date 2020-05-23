@@ -29,9 +29,9 @@ class TestCLIMenu(unittest.TestCase):
         self.assertEqual([call_path, func_name, args], [["prog_name", "3"], None, ["3", "arg1", "arg2"]])
 
 class TestArtifactoryCLI(unittest.TestCase):
-    @unittest.skip("todo:")
+    #@unittest.skip("todo:")
     def test_main(self):
-        testargs = ["art_cli", "configure", "-f", os.path.abspath(os.path.join("files", "config.json"))]
+        testargs = ["ART_OF_CLI", "configure", "-f", os.path.abspath(os.path.join("files", "config.json"))]
         with patch.object(sys, 'argv', testargs):
            main()
         #aapi = ArtifactoryCLI(configs_file_path=os.path.abspath(os.path.join("files", "config.json")))
