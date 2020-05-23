@@ -153,8 +153,8 @@ class ArtifactoryAPI(object):
     def system_version(self, cli_parser=False):
         if cli_parser:
             return self.default_parser
-
-        return "1.1.1"
+        ret = ArtifactoryAPI.execute("system/version", ArtifactoryAPI.APIMethods.GET)
+        return json.loads(str(ret._content,encoding="utf8"))["version"]
 
     @expose_api("system.ping")
     @connection_required
@@ -180,34 +180,39 @@ class ArtifactoryAPI(object):
 
     @expose_api("user.delete")
     @connection_required
-    def user_delete(self, cli_parser=False):
+    def user_delete(self, cli_parser=False, name=None):
         if cli_parser:
             return self.name_parser()
 
-        raise NotImplementedError("the same as below")
+        ret = ArtifactoryAPI.execute("security/users/{}".format(name), ArtifactoryAPI.APIMethods.DELETE,
+                                     retry_on_error_code=False)
+
+        if ret.status_code == 200:
+            print("OK")
+            return True
+
+        return False
 
     @expose_api("user.create")
     @connection_required
     def user_create(self, cli_parser=False, file_name=None):
         if cli_parser:
             return self.file_name_parser()
-        pdb.set_trace()
+
         with open(file_name) as f:
             user = json.load(f)
-            ArtifactoryAPI.execute("security/users/{}".format(user["name"]), ArtifactoryAPI.APIMethods.PUT, data=user)
+            ret = ArtifactoryAPI.execute("security/users/{}".format(user["name"]), ArtifactoryAPI.APIMethods.PUT,
+                                   data=json.dumps(user), retry_on_error_code=False)
 
-        pdb.set_trace()
-        requests.put('https://httpbin.org/put', data={'key': 'value'})
-        #
-        return True
+        if ret.status_code == 201:
+            print("OK")
+            return True
 
+        return False
+        # todo: add an option to put data interactively
         print("Press ^+D to submit the valid JSON input")
         complete_inout = sys.stdin.read()
-        pdb.set_trace()
         print(complete_inout)
-        {"1": "2",
-         "3": "4"
-         }
 
     @expose_api("storage.info")
     @connection_required
@@ -245,12 +250,14 @@ class ArtifactoryAPI(object):
                 else:
                     raise RuntimeError("Unexpected method {}, method should be one of {}".format(method, ArtifactoryAPI.APIMethods._member_names_))
 
-                if ret.status_code != 200:
+                if ret.status_code not in [200, 201]:
                     if retry_on_error_code:
                         raise APICallError("Error code: {}, reason: {}".format(ret.status_code, ret.reason))
                     else:
                         print("Error when calling {} code: {}, reason: {}".format(url, ret.status_code, ret.reason))
-
+                        content = ret.__dict__.get("_content")
+                        if content:
+                            print(content)
                 return ret
             except AttributeError as e:
                 if "'NoneType' object has no attribute 'get'" in repr(e):
