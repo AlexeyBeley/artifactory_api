@@ -1,10 +1,9 @@
 import os
-import pdb
 import sys
 import unittest
 import argparse
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "art_cli", "src")))
 from artifactory_api import ArtifactoryAPI, EXPOSED_API
 
 

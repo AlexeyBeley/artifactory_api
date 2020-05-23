@@ -3,7 +3,7 @@ test:
 build:
 mkdir build
 cp src build
-build setup
+python setup.py sdist upload -r https://alexeybeley.jfrog.io/pypi-local
 
 upload (build, test):
 python get_version

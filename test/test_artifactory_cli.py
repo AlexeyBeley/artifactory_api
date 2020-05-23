@@ -1,11 +1,10 @@
 import os
-import pdb
 import sys
 import unittest
 from unittest.mock import patch
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
-from artifactory_cli import ArtifactoryCLI, main, CLIMenu
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "art_cli", "src")))
+from artifactory_cli import main, CLIMenu
 
 
 class TestCLIMenu(unittest.TestCase):

@@ -1,11 +1,12 @@
 # artifactory_api
 
+alexeybeley.jfrog.io/artifactory
 
 portal username: alexeybeley
 portal password: DGNHR$3@^7(*3)lmy!@2
 
 api user: admin
-api password: IAMwckGYQlRdz1g8Z0rRLA
+api password: IAMwckGYQlRdz1g8Z0rRLA1
 
 
 #Usefull manual tests
