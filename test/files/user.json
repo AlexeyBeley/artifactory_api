@@ -1,6 +1,11 @@
 {
-  "server_name": "alexeybeley.jfrog.io/artifactory",
-  "protocol": "https",
-  "username": "admin",
-  "password": "IAMwckGYQlRdz1g8Z0rRLA1"
+  "name": "davids",
+  "email" : "davids@jfrog.com",
+  "admin": false,
+  "profileUpdatable": true,
+  "disableUIAccess" : true,
+  "internalPasswordDisabled": false,
+  "groups" : [ "deployers", "users" ],
+  "watchManager": false,
+  "policyManager": false
 }

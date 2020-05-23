@@ -19,23 +19,23 @@ EXPOSED_API = {}
 
 def connection_required(func_base):
     @wraps(func_base)
-    def new_func(args, **kwargs):
+    def new_func(*args, **kwargs):
         try:
             ArtifactoryAPI().configure()
-            return func_base(args, **kwargs)
+            return func_base(*args, **kwargs)
         except ConnectionError:
             ArtifactoryAPI.connect()
-            return func_base(args, **kwargs)
+            return func_base(*args, **kwargs)
 
     return new_func
 
 
 def retry(log_message, tuple_exceptions):
     def wrap(func_base):
-        def func_new(args, **kwargs):
+        def func_new(*args, **kwargs):
             for i in range(ArtifactoryAPI.configuration.retry_count):
                 try:
-                    return func_base(args, **kwargs)
+                    return func_base(*args, **kwargs)
                 except tuple_exceptions as e:
                     print("{} Reason: {}, retrying in {}".format(log_message, repr(e), ArtifactoryAPI.configuration.retry_sleep_interval))
                     time.sleep(ArtifactoryAPI.configuration.retry_sleep_interval)
@@ -51,8 +51,8 @@ def expose_api(api_path):
         EXPOSED_API[api_path] = func_base.__name__
 
         @wraps(func_base)
-        def func_new(args, **kwargs):
-            return func_base(args, **kwargs)
+        def func_new(*args, **kwargs):
+            return func_base(*args, **kwargs)
 
         return func_new
     return wrap
@@ -169,7 +169,7 @@ class ArtifactoryAPI(object):
             return self.default_parser
 
         try:
-            ArtifactoryAPI.execute("system/ping")
+            ArtifactoryAPI.execute("system/ping", ArtifactoryAPI.APIMethods.GET)
             print("OK")
             return True
         except ConnectionError:
@@ -191,13 +191,16 @@ class ArtifactoryAPI(object):
     def user_create(self, cli_parser=False, file_name=None):
         if cli_parser:
             return self.file_name_parser()
+        pdb.set_trace()
+        with open(file_name) as f:
+            user = json.load(f)
+            ArtifactoryAPI.execute("security/users/{}".format(user["name"]), ArtifactoryAPI.APIMethods.PUT, data=user)
 
-        ArtifactoryAPI.execute("system/ping")
-
+        pdb.set_trace()
         requests.put('https://httpbin.org/put', data={'key': 'value'})
         #
         return True
-        pdb.set_trace()
+
         print("Press ^+D to submit the valid JSON input")
         complete_inout = sys.stdin.read()
         pdb.set_trace()
