@@ -4,6 +4,7 @@ from artifactory_api import ArtifactoryAPI, EXPOSED_API
 import pdb
 import argparse
 
+
 class CLIMenu(object):
 
     def __init__(self, name):
@@ -42,17 +43,40 @@ class CLIMenu(object):
         return children_submenus, func_name, args_split
 
     def generate_usage(self, submenus, function_name, function_args):
+        help_message = 'please run "ART_CLI --USAGE" for all options.'
         if len(submenus) == 1:
-            parser = argparse.ArgumentParser()
-            parser.add_argument('-n',
-                                '--name',
-                                action='store',
-                                type=str,
-                                metavar='NAME')
+            parser = argparse.ArgumentParser(add_help=False)
+            parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS,
+                                help=help_message)
+            parser.add_argument('--USAGE', action='store_true')
+
+            args = parser.parse_args(sys.argv[1:])
+            if args.USAGE is True:
+                self.print_all_menus_usage([])
+            else:
+                print(help_message)
+
+            return
+
         pdb.set_trace()
         usage = ""
         print(usage)
 
+    def print_all_menus_usage(self, lst_path):
+        str_ret = ""
+        lst_path.append(self.name)
+
+        for child_name, child in self.children.items():
+            if child.func_name is not None:
+                func_obj = getattr(ArtifactoryAPI(), child.func_name)
+                parser = func_obj(cli_parser=True)
+                print('Available options for "{} {}":'.format(" ".join(lst_path), child_name))
+                parser.print_usage()
+            else:
+                child.print_all_menus_usage(lst_path)
+                lst_path.pop(-1)
+
+        return str_ret
 
 class ArtifactoryCLI(object):
     ART_API = ArtifactoryAPI()

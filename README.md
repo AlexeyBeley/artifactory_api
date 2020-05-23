@@ -13,7 +13,7 @@
 3) First thing - you have to configure it.
    See the example .json file for configuration 
    run `./art_cli.py configure -f <file_path>`
-
+4) As an option you can put it as `+x` under `/usr/bin` and run it from console directly
 
 # For developers how to use Makefile:
 

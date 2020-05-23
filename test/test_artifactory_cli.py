@@ -34,7 +34,7 @@ class TestArtifactoryCLI(unittest.TestCase):
         with patch.object(sys, 'argv', testargs):
             self.assertEqual(main(), True)
 
-    #@unittest.skip("todo:")
+    @unittest.skip("todo:")
     def test_system_wrong(self):
         testargs = ["ART_OF_CLI", "system", "-f", os.path.abspath(os.path.join("files", "config.json"))]
         with patch.object(sys, 'argv', testargs):
@@ -42,7 +42,7 @@ class TestArtifactoryCLI(unittest.TestCase):
 
     #@unittest.skip("todo:")
     def test_help(self):
-        testargs = ["ART_OF_CLI", "-help"]
+        testargs = ["ART_OF_CLI", "--USAGE"]
         with patch.object(sys, 'argv', testargs):
             self.assertEqual(main(), True)
 
