@@ -1,7 +1,7 @@
 # For users
 
 1) Install
-   `pip3 install -e https://alexeybeley.jfrog.io/artifactory/api/pypi/pypi-local/art_cli` 
+   `pip3 install art_cli -i https://alexeybeley.jfrog.io/artifactory/api/pypi/pypi-local/simple`
 2) Create a runner for example:
    cat ./art_cli.py
    ```python
@@ -33,3 +33,4 @@ run this command to test your package before uploading.
 1) Make it interactive (while loop)
 2) Add option to interactive user intput (e.g. user-create should accept json from stdin).
 3) Function to upload the package. So the `make upload` will use it.
+4) Add __version__ under packages __init__.py
