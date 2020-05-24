@@ -1,7 +1,6 @@
 #!python3
 import sys
 from artifactory_api import ArtifactoryAPI, EXPOSED_API
-import pdb
 import argparse
 
 
@@ -54,7 +53,6 @@ class CLIMenu(object):
             if args.USAGE is True:
                 self.print_all_menus_usage([])
             else:
-                pdb.set_trace()
                 print(help_message)
 
             return
