@@ -140,8 +140,7 @@ class ArtifactoryAPI(object):
             file_name = ArtifactoryAPI.CONFIGS_PATH
 
         if not os.path.exists(file_name):
-            print("ART_CLI is not yet configured. Please see 'ART_CLI --USAGE'")
-            return
+            raise RuntimeError("ART_CLI is not yet configured. Please see 'ART_CLI --USAGE'")
 
         with open(file_name) as f:
             configs = json.load(f)
