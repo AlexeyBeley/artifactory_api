@@ -139,6 +139,10 @@ class ArtifactoryAPI(object):
         if file_name is None:
             file_name = ArtifactoryAPI.CONFIGS_PATH
 
+        if not os.path.exists(file_name):
+            print("ART_CLI is not yet configured. Please see 'ART_CLI --USAGE'")
+            return
+
         with open(file_name) as f:
             configs = json.load(f)
 
