@@ -40,3 +40,4 @@ run this command to test your package before uploading.
 4) Add __version__ under packages __init__.py
 5) Remove insert to sys.path in __init__. 
 6) Remove `pip3 install requests` - switch to packages' requirements.
+7) Change /tmp/configs.json to something adequate.
