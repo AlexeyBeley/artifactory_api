@@ -1,0 +1,5 @@
+_build/*
+.idea/*
+src/art_cli/_private/*
+src/art_cli/__pycache__
+*.pyc

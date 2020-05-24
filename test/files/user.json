@@ -1,0 +1,12 @@
+{
+  "name": "davids",
+  "password": "ba;asd##$%%#",
+  "email" : "davids@jfrog.com",
+  "admin": false,
+  "profileUpdatable": true,
+  "disableUIAccess" : true,
+  "internalPasswordDisabled": false,
+  "groups" : [ "users" ],
+  "watchManager": false,
+  "policyManager": false
+}
