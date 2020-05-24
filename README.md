@@ -35,7 +35,8 @@ run this command to test your package before uploading.
 
 # todo:
 1) Make it interactive (while loop)
-2) Add option to interactive user intput (e.g. user-create should accept json from stdin).
+2) Add option to interactive user input (e.g. user-create should accept json from stdin).
 3) Function to upload the package. So the `make upload` will use it.
 4) Add __version__ under packages __init__.py
-5) Remove pip3 install requests
+5) Remove insert to sys.path in __init__. 
+6) Remove `pip3 install requests` - switch to packages' requirements.
