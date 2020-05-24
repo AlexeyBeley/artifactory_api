@@ -270,7 +270,7 @@ class ArtifactoryAPI(object):
                             print(content)
                 return ret
             except AttributeError as e:
-                if "'NoneType' object has no attribute 'get'" in repr(e):
+                if "'NoneType' object has no attribute " in repr(e):
                     raise ConnectionError("Not connected")
                 raise
             except (requests.HTTPError, requests.ConnectionError):
